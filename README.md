@@ -82,6 +82,6 @@ Run an interactive job</br></br>
 
 ## Links
 
-* https://github.com/sergiy-nazarenko/slurm17-centos7.git
+* https://sysadm.mielnet.pl/building-and-installing-rpm-slurm-on-centos-7/ 
 * https://github.com/mknoxnv/ubuntu-slurm
 

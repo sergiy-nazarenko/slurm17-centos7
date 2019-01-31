@@ -1,6 +1,14 @@
 #!/bin/bash
 
+repodir=`pwd`
+
 export VER=18.08.5
+
+
+if [ ! -f files/slurm-$VER.tar.bz2 ]; then
+    echo "File not found! Please download it from https://www.schedmd.com/downloads.php"
+    exit 1
+fi
 
 # Create global user accounts on all of the nodes in the cluster. These must be created identically on all of the nodes and
 # done prior to installing the RPMs
@@ -28,8 +36,8 @@ chmod 0700 /etc/munge/ /var/log/munge/
 
 # Install the dependencies for Slurm
 yum install -y rpm-build gcc openssl openssl-devel libssh2-devel pam-devel numactl numactl-devel 
-yum install	-y hwloc hwloc-devel lua lua-devel readline-devel rrdtool-devel ncurses-devel gtk2-devel man2html 
-yum install	-y libibmad libibumad perl-Switch perl-ExtUtils-MakeMaker
+yum install -y hwloc hwloc-devel lua lua-devel readline-devel rrdtool-devel ncurses-devel gtk2-devel man2html 
+yum install -y libibmad libibumad perl-Switch perl-ExtUtils-MakeMaker
 yum install -y mariadb-server mariadb-devel
 
 # Download the Slurm 17.11.7 tarball
@@ -83,9 +91,10 @@ chown slurm: /etc/slurm
 
 touch /etc/slurm/cgroup.conf
 
+cd $repodir
 
-cp /etc/slurm/slurm.conf.example /etc/slurm/slurm.conf
-cp /etc/slurm/slurmdbd.conf.example /etc/slurm/slurmdbd.conf
+cp files/slurm.conf /etc/slurm/slurm.conf
+cp files/slurmdbd.conf /etc/slurm/slurmdbd.conf
 #vim /etc/slurm/slurm.conf
 #vim /etc/slurm/slurmdbd.conf
 systemctl enable slurmctld

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export VER=17.11.7
+export VER=18.08.5
 
 # Create global user accounts on all of the nodes in the cluster. These must be created identically on all of the nodes and
 # done prior to installing the RPMs
@@ -43,7 +43,7 @@ rpmbuild -ta slurm-$VER.tar.bz2
 # Install the RPMs on all of the nodes; RPMs on each node can vary by configuration, but
 # this is my starting point
 cd $HOME/rpmbuild/RPMS/x86_64
-export VER=17.11.7-1
+export VER=$VER-1
 
 yum install -y slurm-$VER.el7.x86_64.rpm
 yum install -y slurm-perlapi-$VER.el7.x86_64.rpm
@@ -82,3 +82,14 @@ chown slurm: /var/log/slurm/slurmd.log
 chown slurm: /etc/slurm
 
 touch /etc/slurm/cgroup.conf
+
+
+cp /etc/slurm/slurm.conf.example /etc/slurm/slurm.conf
+cp /etc/slurm/slurmdbd.conf.example /etc/slurm/slurmdbd.conf
+#vim /etc/slurm/slurm.conf
+#vim /etc/slurm/slurmdbd.conf
+systemctl enable slurmctld
+systemctl start slurmctld
+systemctl enable slurmd
+systemctl start slurmd
+

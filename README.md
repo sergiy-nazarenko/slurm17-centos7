@@ -78,3 +78,10 @@ Confirm that all of the compute nodes are reporting to the head node</br></br>
 
 Run an interactive job</br></br>
 `$ srun --pty bash`</br>
+
+
+## Links
+
+* https://sysadm.mielnet.pl/building-and-installing-rpm-slurm-on-centos-7/ 
+* https://github.com/mknoxnv/ubuntu-slurm
+

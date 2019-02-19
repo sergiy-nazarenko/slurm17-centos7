@@ -33,7 +33,7 @@ yum install -y munge munge-libs munge-devel
 # Set the permissions for MUNGE directories on all of the nodes
 chown -R munge: /etc/munge/ /var/log/munge/
 chmod 0700 /etc/munge/ /var/log/munge/
-
+OD
 # Install the dependencies for Slurm
 yum install -y rpm-build gcc openssl openssl-devel libssh2-devel pam-devel numactl numactl-devel 
 yum install -y hwloc hwloc-devel lua lua-devel readline-devel rrdtool-devel ncurses-devel gtk2-devel man2html 
@@ -63,8 +63,8 @@ yum install -y slurm-libpmi-$VER.el7.x86_64.rpm
 yum install -y slurm-pam_slurm-$VER.el7.x86_64.rpm
 yum install -y slurm-slurmctld-$VER.el7.x86_64.rpm
 yum install -y slurm-slurmd-$VER.el7.x86_64.rpm
-yum install -y slurm-torque-$VER.el7.x86_64.rpm 
-
+yum install -y slurm-torque-$VER.el7.x86_64.rpm
+yum install -y slurm-slurmdbd-$VER.el7.x86_64.rpm
 # Create the files and directories for use by Slurm that are not created during install; set the 
 # permissions for the files and directories
 mkdir /var/spool/slurmctld /var/log/slurm
@@ -91,7 +91,13 @@ chown slurm: /etc/slurm
 
 touch /etc/slurm/cgroup.conf
 
+
+mysql_secure_installation
+mysql -u root -p -e "create database slurm_acct_db;create user slurm@localhost;set password for slurm@localhost = password('sen2agri');grant usage on *.* to slurm;grant all privileges on slurm_acct_db.* to slurm;flush privileges;"
+
+
 cd $repodir
+
 
 cp files/slurm.conf /etc/slurm/slurm.conf
 cp files/slurmdbd.conf /etc/slurm/slurmdbd.conf
@@ -101,4 +107,5 @@ systemctl enable slurmctld
 systemctl start slurmctld
 systemctl enable slurmd
 systemctl start slurmd
-
+systemctl enable slurmdbd
+systemctl start slurmdbd
